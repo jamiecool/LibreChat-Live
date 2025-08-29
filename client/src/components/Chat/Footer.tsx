@@ -34,13 +34,21 @@ export default function Footer({ className }: { className?: string }) {
     </a>
   );
 
+  //original
+  //const mainContentParts = (
+  //  typeof config?.customFooter === 'string'
+  //    ? config.customFooter
+  //    : '[LibreChat ' +
+  //      Constants.VERSION +
+  //      '](https://librechat.ai) - ' +
+  //      localize('com_ui_latest_footer')
+  //).split('|');
+
+  //JAMIE CHANGE BELOW
   const mainContentParts = (
     typeof config?.customFooter === 'string'
       ? config.customFooter
-      : '[LibreChat ' +
-        Constants.VERSION +
-        '](https://librechat.ai) - ' +
-        localize('com_ui_latest_footer')
+      : ' '
   ).split('|');
 
   useEffect(() => {
