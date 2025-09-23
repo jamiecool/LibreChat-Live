@@ -222,6 +222,10 @@ export const agents = ({ path = '', options }: { path?: string; options?: object
   return url;
 };
 
+export const mcp = {
+  tools: `${BASE_URL}/api/mcp/tools`,
+};
+
 export const revertAgentVersion = (agent_id: string) => `${agents({ path: `${agent_id}/revert` })}`;
 
 export const files = () => `${BASE_URL}/api/files`;
@@ -252,8 +256,19 @@ export const getPromptGroup = (_id: string) => `${prompts()}/groups/${_id}`;
 
 export const getPromptGroupsWithFilters = (filter: object) => {
   let url = `${prompts()}/groups`;
-  if (Object.keys(filter).length > 0) {
-    const queryParams = new URLSearchParams(filter as Record<string, string>).toString();
+  // Filter out undefined/null values
+  const cleanedFilter = Object.entries(filter).reduce(
+    (acc, [key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        acc[key] = value;
+      }
+      return acc;
+    },
+    {} as Record<string, string>,
+  );
+
+  if (Object.keys(cleanedFilter).length > 0) {
+    const queryParams = new URLSearchParams(cleanedFilter).toString();
     url += `?${queryParams}`;
   }
   return url;
